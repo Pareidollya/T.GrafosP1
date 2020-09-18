@@ -4,12 +4,8 @@ def matriz(linha_coluna): #criar matriz
         matriz = matriz + [[0]*linha_coluna]
     return matriz
 
-n = int(input("Numero de vértices: "))
-A = matriz(n)
-
-print("Relacionar Vértices\n")
-
 def Grafo(matriz):
+    print("Relacionar Vértices\n")
     for j in range(len(matriz)):
         i = 0
         while i < (len(matriz)):
@@ -28,5 +24,8 @@ def printGrafo(grafo):
     for j in range(len(grafo)):
         print(grafo[j])
     #imprimir grafo (adicionar arestas)
+    
+n = int(input("Numero de vértices: "))
+A = matriz(n)
 
 printGrafo(Grafo(A))
