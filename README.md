@@ -10,6 +10,6 @@ Tutorial:
 Para executar o código
 1. Informar numero de vértices.
 2. Relacionar os vértices.
-3. Ao relacionar os vértices desejados é impresso uma matriz de adjacênci.
+3. Ao relacionar os vértices desejados é impresso uma matriz de adjacência com as arestas formadas.
                 
                 
