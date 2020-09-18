@@ -7,4 +7,7 @@ Componentes:
 
 Tutorial:
 
-NA
+Gravar o grafo: Informar numero de vértices;
+                Relacionar os vértices
+                
+                
