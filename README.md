@@ -7,8 +7,9 @@ Componentes:
 
 Tutorial:
 
-Gravar o grafo: Informar numero de vértices.
-                Relacionar os vértices.
-                Ao relacionar os vértices desejados é impresso uma matriz de adjacênci.
+Para executar o código
+1. Informar numero de vértices.
+2. Relacionar os vértices.
+3. Ao relacionar os vértices desejados é impresso uma matriz de adjacênci.
                 
                 
