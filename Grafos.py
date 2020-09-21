@@ -1,31 +1,99 @@
-def matriz(linha_coluna): #criar matriz
-    matriz = []
-    for i in range(linha_coluna):
-        matriz = matriz + [[0]*linha_coluna]
-    return matriz
+class grafos():
 
-def Grafo(matriz):
-    print("Relacionar Vértices\n")
-    for j in range(len(matriz)):
-        i = 0
-        while i < (len(matriz)):
-            v = int(input(f"Vertice {j} relaciona com quais? (-1 prox vertice): "))
+    def __init__(self,arestas,nroVertices,pesos=False,digrafo=True):
+        self.arestas = arestas
+        self.nroVertices = nroVertices
+        self.pesos = pesos
+        self.digrafo = digrafo
+    def matrixAdj(self):
+        matrix = []
+        vertices = []
+        dict = {}
+        
 
-            if v == -1:
-                i = len(matriz) + 1
-                print("\n")
-            if v > -1 and v <= len(matriz):
-                matriz[j][v] = 1
-                #matriz[v][j] = 1 caso nao seja um digrafo
-            i += 1
-    return matriz
+        for v,k in self.arestas:
+            if v not in vertices:
+                vertices.append(v)
+            if k not in vertices:
+                vertices.append(k)
+        
+        for i in range(len(vertices)):
+            matrix.append([])
+            for j in range(len(vertices)):
+                matrix[i].append(0)
 
-def printGrafo(grafo):
-    for j in range(len(grafo)):
-        print(grafo[j])
-    #imprimir grafo (adicionar arestas)
-    
-n = int(input("Numero de vértices: "))
-A = matriz(n)
+        for e in range(len(vertices)):
+            dict[vertices[e]] = e
 
-printGrafo(Grafo(A))
+        if self.digrafo == True:
+            for v,k in self.arestas:
+                matrix[dict[k]][dict[v]] = 1
+        else:
+            for v,k in self.arestas:
+                matrix[dict[v]][dict[k]] = 1
+                matrix[dict[k]][dict[v]] = 1
+        return matrix,dict
+
+    def getAdjacente(self,matrix,dict,vertice):
+        adjacentes = []
+        vertices = list(dict.keys())
+        aux = list(dict.keys())
+        if self.digrafo == True:
+            for c in range(len(vertices)):
+                if matrix[c][dict[vertice]] != 0:
+                    adjacentes.append(aux[c])
+        else:
+            for c in range(len(vertices)):
+                if matrix[dict[vertice]][c] != 0 or matrix[c][dict[vertice]] != 0:
+                    adjacentes.append(aux[c])
+        return adjacentes
+    def ehRegular(self,matrix,dict):
+        vertices = list(dict.keys())
+        if self.digrafo == True:
+            grauE = []
+            grauS = []
+            regular = []
+            nroVertices = len(vertices)
+            #aux = list(dict.keys())
+
+            for c in range(nroVertices):
+                auxE = 0
+                auxS = 0
+                for j in range(nroVertices):
+                    if matrix[dict[vertices[c]]][j] != 0:
+                        auxS += 1
+                        if c == j:
+                            auxE += 1
+                    elif matrix[j][dict[vertices[c]]] != 0:
+                        auxE += 1
+                grauE.append(auxE)
+                grauS.append(auxS)
+                for c in range(len(grauE)):
+                    if grauE[0] == grauE[c]:
+                        regular.append(True)
+                    else:
+                        regular.append(False)
+                for c in range(len(grauS)):
+                    if grauS[0] == grauS[c]:
+                        regular.append(True)
+                    else:
+                        regular.append(False)
+            return all(regular)
+        else:
+            grau = []
+            regular = []
+            for c in range(len(vertices)):
+                aux2 = 0
+                for j in range(len(vertices)):
+                    if matrix[dict[vertices[c]]][j] != 0 or matrix[j][dict[vertices[c]]] != 0:
+                        aux2 += 1
+                        if c == j:
+                            aux2 += 1
+                grau.append(aux2)
+            for c in range(len(grau)):
+                if grau[0] == grau[c]:
+                    regular.append(True)
+                else:
+                    regular.append(False)
+            return all(grau)
+
