@@ -11,13 +11,14 @@ Para executar o código
 1. arestas, para executar os proximos passos é nescessário criar uma váriavel que será lida como as arestas do grafo,
    nos seguintes formatos:
    * Digrafos: [('A','B'),('B','A'),('B','C'),('C','B'),('C','A')] #Exemplo
-     Obs1: A ordem dos vertices influencia, ('A','B') != ('B','A'). Porém a ordem das Tuplas não
+     Obs1: ('A','B') segmento orientado de 'A' para 'B'
+     Obs2: A ordem dos vertices influencia, ('A','B') != ('B','A'). Porém a ordem das Tuplas não.
 
 
    * Grafos:[('A','B'),('B','C'),('C','A')] #Exemplo
      Obs2: Não passar a ordem inversa dos vertices o programa já faz a leitura considerando que possui inversa.
            A Ordem dos vertices e das tuplas não influencia ('A','B') = ('B','A')
-           
+
 
    Obs3: Para ambos os casos, não passar somente um vertice, ou mais de dois no formato: ('A') ou ('A','B','C') #Erro
    Obs4: Para ambos os casos, o loop é lido na forma: ('A','A') #loop em 'A'
