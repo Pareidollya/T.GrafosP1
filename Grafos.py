@@ -47,6 +47,17 @@ class grafos():
                 if matrix[dict[vertice]][c] != 0 or matrix[c][dict[vertice]] != 0:
                     adjacentes.append(aux[c])
         return adjacentes
+    
+    def listaAdjacente(self):
+        matrix,dict = grafos.matrixAdj(self)
+        vertices = list(dict.keys())
+        nroVertices = len(vertices)
+        listaAdj = {}
+        for c in range(nroVertices):
+            vertice = vertices[c]
+            listaAdj[vertices[c]]= grafos.getAdjacente(self,matrix,dict,vertice)
+        return listaAdj
+
     def ehRegular(self,matrix,dict):
         vertices = list(dict.keys())
         if self.digrafo == True:
@@ -96,4 +107,3 @@ class grafos():
                 else:
                     regular.append(False)
             return all(grau)
-
