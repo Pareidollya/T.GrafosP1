@@ -7,7 +7,7 @@ Componentes:
 
 
 
-chupa mundo
+
 
 Tutorial:
 
