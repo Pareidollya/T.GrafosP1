@@ -32,4 +32,6 @@ class Busca_em_Largura():
                     parent[v] = u
                     level[v] = level[u] + 1
                     queue.append(v)
+            if not queue:
+                break
         return output,level
