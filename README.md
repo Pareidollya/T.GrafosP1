@@ -56,6 +56,7 @@ Para executar o código
 
    * ehcompleto():
    > O método não precisa de parametros:
+   > O método da o resultado corretamente em grafos simples. Caso não seja simples não tem garantia
    > O método retorna um valor booleano, para os seguintes casos: True = Completo, False = Não Completo
 
    * conexo():
