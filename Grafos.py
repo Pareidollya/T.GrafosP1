@@ -1,81 +1,86 @@
+from Busca import Buscas
 class grafos():
 
-    def __init__(self,arestas,nroVertices,pesos=False,digrafo=True):
+    def __init__(self, arestas, digrafo=True):
         self.arestas = arestas
-        self.nroVertices = nroVertices
-        self.pesos = pesos
         self.digrafo = digrafo
+
     def matrixAdj(self):
         matrix = []
         vertices = []
-        dict = {}
-        
+        dicionario = {}
 
-        for v,k in self.arestas:
+
+        for v, k,l in self.arestas:
             if v not in vertices:
                 vertices.append(v)
+
             if k not in vertices:
                 vertices.append(k)
-        
+
         for i in range(len(vertices)):
             matrix.append([])
             for j in range(len(vertices)):
                 matrix[i].append(0)
 
         for e in range(len(vertices)):
-            dict[vertices[e]] = e
+            dicionario[vertices[e]] = e
 
         if self.digrafo == True:
-            for v,k in self.arestas:
-                matrix[dict[k]][dict[v]] = 1
+            for v, k,l in self.arestas:
+                matrix[dicionario[k]][dicionario[v]] = l
         else:
-            for v,k in self.arestas:
-                matrix[dict[v]][dict[k]] = 1
-                matrix[dict[k]][dict[v]] = 1
-        return matrix,dict
+            for v, k,l in self.arestas:
+                matrix[dicionario[v]][dicionario[k]] = l
+                matrix[dicionario[k]][dicionario[v]] = l
+        return matrix, dicionario
 
-    def getAdjacente(self,matrix,dict,vertice):
-        adjacentes = []
-        vertices = list(dict.keys())
-        aux = list(dict.keys())
+    def getAdjacente(self, vertice):
+        matrix,dicionario = grafos.matrixAdj(self)
+        adjacentes = {}
+        vertices = list(dicionario.keys())
+
         if self.digrafo == True:
             for c in range(len(vertices)):
-                if matrix[c][dict[vertice]] != 0:
-                    adjacentes.append(aux[c])
+                if matrix[c][dicionario[vertice]] != 0:
+                    adjacentes[vertices[c]] = matrix[c][dicionario[vertice]]
         else:
             for c in range(len(vertices)):
-                if matrix[dict[vertice]][c] != 0 or matrix[c][dict[vertice]] != 0:
-                    adjacentes.append(aux[c])
+                if matrix[dicionario[vertice]][c] != 0: 
+                    adjacentes[vertices[c]] = matrix[dicionario[vertice]][c]
+                elif matrix[c][dicionario[vertice]] != 0:
+                    adjacentes[vertices[c]] = matrix[c][dicionario[vertice]]
         return adjacentes
-    
+
     def listaAdjacente(self):
-        matrix,dict = grafos.matrixAdj(self)
-        vertices = list(dict.keys())
+        matrix, dicionario = grafos.matrixAdj(self)
+        vertices = list(dicionario.keys())
         nroVertices = len(vertices)
         listaAdj = {}
         for c in range(nroVertices):
             vertice = vertices[c]
-            listaAdj[vertices[c]]= grafos.getAdjacente(self,matrix,dict,vertice)
+            listaAdj[vertices[c]] = grafos.getAdjacente(self, vertice)
         return listaAdj
 
-    def ehRegular(self,matrix,dict):
-        vertices = list(dict.keys())
+    def ehRegular(self):
+        matrix,dicionario = grafos.matrixAdj(self)
+        vertices = list(dicionario.keys())
         if self.digrafo == True:
             grauE = []
             grauS = []
             regular = []
             nroVertices = len(vertices)
-            #aux = list(dict.keys())
+            # aux = list(dict.keys())
 
             for c in range(nroVertices):
                 auxE = 0
                 auxS = 0
                 for j in range(nroVertices):
-                    if matrix[dict[vertices[c]]][j] != 0:
+                    if matrix[dicionario[vertices[c]]][j] != 0:
                         auxS += 1
                         if c == j:
                             auxE += 1
-                    elif matrix[j][dict[vertices[c]]] != 0:
+                    elif matrix[j][dicionario[vertices[c]]] != 0:
                         auxE += 1
                 grauE.append(auxE)
                 grauS.append(auxS)
@@ -96,7 +101,7 @@ class grafos():
             for c in range(len(vertices)):
                 aux2 = 0
                 for j in range(len(vertices)):
-                    if matrix[dict[vertices[c]]][j] != 0 or matrix[j][dict[vertices[c]]] != 0:
+                    if matrix[dicionario[vertices[c]]][j] != 0 or matrix[j][dicionario[vertices[c]]] != 0:
                         aux2 += 1
                         if c == j:
                             aux2 += 1
@@ -107,3 +112,25 @@ class grafos():
                 else:
                     regular.append(False)
             return all(grau)
+    def ehcompleto(self):
+        listaAdj = grafos.listaAdjacente(self)
+        vertices = list(listaAdj.keys())
+        completo = []
+
+        for v in listaAdj:
+            if len(listaAdj[v]) == len(vertices)-1:
+                completo.append(True)
+            else:
+                completo.append(False)
+        return all(completo)
+    def conexo(self,verticeInicial):
+        vertice = verticeInicial
+        listaAdj = self.listaAdjacente()
+        instance = Buscas(listaAdj,vertice)
+        arvore = instance.buscaLargura()
+        vertices = list(listaAdj.keys())
+        if len(vertices) != len(arvore):
+            return False
+        else:
+            return True
+
